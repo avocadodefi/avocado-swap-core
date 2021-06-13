@@ -1,6 +1,16 @@
 pragma solidity >=0.5.0;
 
-interface IPancakeERC20 {
+/*
+ * AvocadoSwapFinance 
+ * App:             https://avocado.finance
+ * Medium:          https://medium.com/@avocadoswap    
+ * Twitter:         https://twitter.com/avocadoswap 
+ * Telegram:        https://t.me/avocadoswap
+ * Announcements:   https://t.me/avocadoswap_news
+ * GitHub:          https://github.com/AvocadoSwapFinance
+ */
+
+interface IAvocadoERC20 {
     event Approval(address indexed owner, address indexed spender, uint value);
     event Transfer(address indexed from, address indexed to, uint value);
 

@@ -1,11 +1,20 @@
 pragma solidity =0.5.16;
 
-import './interfaces/IPancakeFactory.sol';
-import './PancakePair.sol';
+/*
+ * AvocadoSwapFinance 
+ * App:             https://avocado.finance
+ * Medium:          https://medium.com/@avocadoswap    
+ * Twitter:         https://twitter.com/ape_swap 
+ * Telegram:        https://t.me/ape_swap
+ * Announcements:   https://t.me/ape_swap_news
+ * GitHub:          https://github.com/AvocadoSwapFinance
+ */
 
-contract PancakeFactory is IPancakeFactory {
-    bytes32 public constant INIT_CODE_PAIR_HASH = keccak256(abi.encodePacked(type(PancakePair).creationCode));
+import './interfaces/IAvocadoFactory.sol';
+import './AvocadoPair.sol';
 
+contract AvocadoFactory is IAvocadoFactory {
+    bytes32 public constant INIT_CODE_PAIR_HASH = keccak256(abi.encodePacked(type(AvocadoPair).creationCode));
     address public feeTo;
     address public feeToSetter;
 
@@ -23,16 +32,16 @@ contract PancakeFactory is IPancakeFactory {
     }
 
     function createPair(address tokenA, address tokenB) external returns (address pair) {
-        require(tokenA != tokenB, 'Pancake: IDENTICAL_ADDRESSES');
+        require(tokenA != tokenB, 'AvocadoSwap: IDENTICAL_ADDRESSES');
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
-        require(token0 != address(0), 'Pancake: ZERO_ADDRESS');
-        require(getPair[token0][token1] == address(0), 'Pancake: PAIR_EXISTS'); // single check is sufficient
-        bytes memory bytecode = type(PancakePair).creationCode;
+        require(token0 != address(0), 'AvocadoSwap: ZERO_ADDRESS');
+        require(getPair[token0][token1] == address(0), 'AvocadoSwap: PAIR_EXISTS'); // single check is sufficient
+        bytes memory bytecode = type(AvocadoPair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
             pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
-        IPancakePair(pair).initialize(token0, token1);
+        IAvocadoPair(pair).initialize(token0, token1);
         getPair[token0][token1] = pair;
         getPair[token1][token0] = pair; // populate mapping in the reverse direction
         allPairs.push(pair);
@@ -40,12 +49,12 @@ contract PancakeFactory is IPancakeFactory {
     }
 
     function setFeeTo(address _feeTo) external {
-        require(msg.sender == feeToSetter, 'Pancake: FORBIDDEN');
+        require(msg.sender == feeToSetter, 'AvocadoSwap: FORBIDDEN');
         feeTo = _feeTo;
     }
 
     function setFeeToSetter(address _feeToSetter) external {
-        require(msg.sender == feeToSetter, 'Pancake: FORBIDDEN');
+        require(msg.sender == feeToSetter, 'AvocadoSwap: FORBIDDEN');
         feeToSetter = _feeToSetter;
     }
 }

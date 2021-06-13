@@ -1,6 +1,16 @@
 pragma solidity >=0.5.0;
 
-interface IPancakeFactory {
+/*
+ * AvocadoSwapFinance 
+ * App:             https://avocado.finance
+ * Medium:          https://medium.com/@avocadoswap    
+ * Twitter:         https://twitter.com/avocadoswap 
+ * Telegram:        https://t.me/avocadoswap
+ * Announcements:   https://t.me/avocadoswap_news
+ * GitHub:          https://github.com/AvocadoSwapFinance
+ */
+
+interface IAvocadoFactory {
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
 
     function feeTo() external view returns (address);
